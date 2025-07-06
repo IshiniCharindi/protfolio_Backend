@@ -6,6 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Import routes
+const contactRouter = require('./routes/contactRoutes');
+
+// Use routes
+app.use('/api/contact', contactRouter);
+
 // Sample route
 app.get('/', (req, res) => {
     res.send('Backend is running!');
