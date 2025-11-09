@@ -3,7 +3,14 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+
+// ✅ Configure CORS properly
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://protfolio-backend-xkjg.onrender.com'], // replace with your actual frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+}));
+
 app.use(express.json());
 
 // Import routes
@@ -12,7 +19,7 @@ const contactRouter = require('./routes/contactRoutes');
 // Use routes
 app.use('/api/contact', contactRouter);
 
-// Sample route
+// Sample routes
 app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
@@ -21,8 +28,5 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
 
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
