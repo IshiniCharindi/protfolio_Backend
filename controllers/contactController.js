@@ -10,10 +10,6 @@ exports.handleContactForm = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Name, email, and message are required' });
         }
 
-
-        console.log('EMAIL_USER:', process.env.EMAIL_USER);
-        console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***' : 'MISSING');
-
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
