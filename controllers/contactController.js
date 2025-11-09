@@ -1,6 +1,15 @@
 // controllers/contactController.js
 const nodemailer = require('nodemailer');
 
+const transporter = nodemailer.createTransport({
+    host: "smtp.sendgrid.net",
+    port: 587,
+    auth: {
+        user: "apikey",           // literally the word "apikey"
+        pass: process.env.SENDGRID_API_KEY,  // the API key from environment variables
+    },
+});
+
 exports.handleContactForm = async (req, res) => {
     try {
         console.log('Request body:', req.body);
@@ -14,13 +23,13 @@ exports.handleContactForm = async (req, res) => {
         console.log('EMAIL_USER:', process.env.EMAIL_USER);
         console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***' : 'MISSING');
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
+        // const transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user: process.env.EMAIL_USER,
+        //         pass: process.env.EMAIL_PASS,
+        //     },
+        // });
 
         await transporter.verify(); // <-- checks if SMTP works
         console.log('SMTP verified!');
