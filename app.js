@@ -6,7 +6,7 @@ const app = express();
 
 // ✅ Configure CORS properly
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://protfolio-backend-xkjg.onrender.com','https://www.ishinidewamiththa.me', ], 
+    origin: ['http://localhost:5173', 'https://protfolio-backend-xkjg.onrender.com','https://www.ishinidewamiththa.me', ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));

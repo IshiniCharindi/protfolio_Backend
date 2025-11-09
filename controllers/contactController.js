@@ -3,11 +3,16 @@ const nodemailer = require('nodemailer');
 
 exports.handleContactForm = async (req, res) => {
     try {
+        console.log('Request body:', req.body);
         const { name, email, phone, company, message, selectedPackage, packagePrice } = req.body;
 
         if (!name || !email || !message) {
             return res.status(400).json({ success: false, message: 'Name, email, and message are required' });
         }
+
+
+        console.log('EMAIL_USER:', process.env.EMAIL_USER);
+        console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***' : 'MISSING');
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -16,6 +21,9 @@ exports.handleContactForm = async (req, res) => {
                 pass: process.env.EMAIL_PASS,
             },
         });
+
+        await transporter.verify(); // <-- checks if SMTP works
+        console.log('SMTP verified!');
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -137,7 +145,7 @@ exports.handleContactForm = async (req, res) => {
         await transporter.sendMail(mailOptions);
         res.status(200).json({ success: true, message: 'Message sent successfully!' });
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Contact form error:', error);
         res.status(500).json({
             success: false,
             message: 'Failed to send message',
